@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events | Bristol Community Events</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header id="main-header">
+
+  <div class="brand-logo">
+    <a href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="main-logo">
+    </a>
+  </div>
+
+  <nav class="primary-nav">
+    <ul class="navigation">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a class="active" href="{{ url_for('events') }}">Events</a></li>
+      <li><a href="{{ url_for('venues') }}">Venues</a></li>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+      <li><a href="{{ url_for('contact') }}">Contact</a></li>
+
+      {% if session.get('role') == 'admin' %}
+        <li><a href="{{ url_for('admin') }}">Admin</a></li>
+      {% endif %}
+
+      {% if session.get('user_id') %}
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="container">
+  <h1>Discover Events in Bristol</h1>
+  <p style="color:#999;">Find concerts, workshops, exhibitions and more.</p>
+</section>
+
+<!-- ================= FILTERS ================= -->
+<section class="container">
+
+  <form method="GET" action="{{ url_for('events') }}" class="filter-form">
+
+    <input type="text" name="search" placeholder="Search events...">
+
+    <select name="category">
+      <option value="">All Categories</option>
+      <option value="Music">Music</option>
+      <option value="Theatre">Theatre</option>
+      <option value="Workshop">Workshop</option>
+      <option value="Exhibition">Exhibition</option>
+    </select>
+
+    <select name="price">
+      <option value="">Any Price</option>
+      <option value="free">Free</option>
+      <option value="low">Under £20</option>
+      <option value="high">£20+</option>
+    </select>
+
+    <button type="submit">Apply</button>
+
+  </form>
+
+</section>
+
+<!-- ================= EVENTS GRID ================= -->
+<main class="container">
+
+{% if events and events|length > 0 %}
+
+<div class="events-grid">
+
+  {% for event in events %}
+  <div class="event-card">
+
+    <img src="{{ url_for('static', filename='images/event-placeholder.jpg') }}">
+
+    <div class="event-content">
+
+      <h3>{{ event.title }}</h3>
+
+      <p class="event-meta">
+        📍 {{ event.venue_name }} <br>
+        📅 {{ event.event_date }} <br>
+        🏷 {{ event.category_name }}
+      </p>
+
+      <div class="event-bottom">
+        <span class="price">£{{ event.price }}</span>
+
+        <a href="{{ url_for('event_detail', event_id=event.event_id) }}"
+           class="btn small">
+          View
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+  {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="empty-state">
+  <h2>No events found</h2>
+  <p>Try changing your search or filters.</p>
+</div>
+
+{% endif %}
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="main-footer">
+  <div class="footer-bar">
+    <p>&copy; {{ current_year }} Bristol Community Events</p>
+  </div>
+</footer>
+
+</body>
+</html>

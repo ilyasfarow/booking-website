@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bristol Community Events</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= UNIVERSAL HEADER ================= -->
+<header id="main-header">
+
+  <div class="brand-logo">
+    <a href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="main-logo">
+    </a>
+  </div>
+
+  <nav class="primary-nav">
+    <ul class="navigation">
+      <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+      <li><a href="{{ url_for('events') }}">Events</a></li>
+      <li><a href="{{ url_for('venues') }}">Venues</a></li>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+      <li><a href="{{ url_for('contact') }}">Contact</a></li>
+
+      {% if session.get('role') == 'admin' %}
+        <li><a href="{{ url_for('admin') }}">Admin</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <div class="auth-link">
+    {% if session.get('user_id') %}
+      <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Login</a>
+    {% endif %}
+  </div>
+
+</header>
+
+<!-- ================= HERO (NO SEARCH BAR) ================= -->
+<section class="hero">
+
+  <div class="hero-content">
+    <h1>Discover Events in Bristol</h1>
+    <p>Find, book, and experience the best events happening around you.</p>
+
+    <div class="hero-buttons">
+      <a href="{{ url_for('events') }}" class="btn primary">Explore Events</a>
+      <a href="{{ url_for('venues') }}" class="btn secondary">Book a Venue</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="features container">
+
+  <div class="feature-card">
+    <h3>🎟 Discover Events</h3>
+    <p>Explore concerts, workshops, exhibitions and more.</p>
+  </div>
+
+  <div class="feature-card">
+    <h3>🏟 Book Venues</h3>
+    <p>Find and reserve venues for your own events easily.</p>
+  </div>
+
+  <div class="feature-card">
+    <h3>⚡ Fast & Easy</h3>
+    <p>Simple booking experience with instant confirmations.</p>
+  </div>
+
+</section>
+
+<!-- ================= FEATURED EVENTS ================= -->
+<section class="container">
+
+  <div class="section-header">
+    <h2>Featured Events</h2>
+    <a href="{{ url_for('events') }}">View All</a>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/boat.webp') }}">
+      <div class="content">
+        <h3>Harbour Festival</h3>
+        <p>📍 Bristol Harbour</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/artspace.jpeg') }}">
+      <div class="content">
+        <h3>Art Exhibition</h3>
+        <p>📍 City Gallery</p>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="container" style="text-align:center; padding:3rem 0;">
+
+  <h2>Ready to Explore Bristol?</h2>
+  <p>Join thousands discovering events every day.</p>
+
+  <a href="{{ url_for('events') }}" class="btn primary">
+    Browse Events
+  </a>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="main-footer">
+
+  <div class="footer-content">
+
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="{{ url_for('events') }}">Events</a></li>
+        <li><a href="{{ url_for('venues') }}">Venues</a></li>
+        <li><a href="{{ url_for('contact') }}">Support</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="{{ url_for('legal') }}">Privacy</a></li>
+        <li><a href="{{ url_for('legal') }}">Terms</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Follow</h4>
+      <div class="social-icons">
+        <a href="#"><img src="{{ url_for('static', filename='images/facebook-logo.png') }}"></a>
+        <a href="#"><img src="{{ url_for('static', filename='images/x-logo.png') }}"></a>
+        <a href="#"><img src="{{ url_for('static', filename='images/instagram-logo.png') }}"></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bar">
+    <p>&copy; {{ current_year }} Bristol Community Events</p>
+  </div>
+
+</footer>
+
+</body>
+</html>

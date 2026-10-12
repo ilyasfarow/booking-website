@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ event.title }} | Bristol Community Events</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header id="main-header">
+
+  <div class="brand-logo">
+    <a href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="main-logo">
+    </a>
+  </div>
+
+  <nav class="primary-nav">
+    <ul class="navigation">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('events') }}">Events</a></li>
+      <li><a href="{{ url_for('venues') }}">Venues</a></li>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+      <li><a href="{{ url_for('contact') }}">Contact</a></li>
+
+      {% if session.get('role') == 'admin' %}
+        <li><a href="{{ url_for('admin') }}">Admin</a></li>
+      {% endif %}
+
+      {% if session.get('user_id') %}
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+</header>
+
+<!-- ================= EVENT HERO ================= -->
+<section class="container">
+
+  <h1>{{ event.title }}</h1>
+
+  <p style="color:#999;">
+    {{ event.category_name }} • {{ event.venue_name }}
+  </p>
+
+</section>
+
+<!-- ================= EVENT DETAILS ================= -->
+<main class="container">
+
+  <div class="event-detail">
+
+    <!-- LEFT SIDE -->
+    <div class="event-info">
+
+      <p><b>Date:</b> {{ event.event_date }}</p>
+      <p><b>Start Time:</b> {{ event.start_time }}</p>
+      <p><b>End Time:</b> {{ event.end_time }}</p>
+
+      <p><b>Price:</b> £{{ event.price }}</p>
+      <p><b>Tickets Available:</b> {{ event.available_tickets }}</p>
+
+      <hr>
+
+      <p>
+        {{ event.description if event.description else "No description available for this event." }}
+      </p>
+
+    </div>
+
+    <!-- RIGHT SIDE (BOOKING BOX) -->
+    <div class="event-book">
+
+      {% if not session.get('user_id') %}
+
+        <div class="error-message">
+          You must be logged in to book tickets.
+        </div>
+
+        <a href="{{ url_for('login') }}" class="btn btn-primary">
+          Login to Book
+        </a>
+
+      {% else %}
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="success-message">
+              {% for msg in messages %}
+                <p>{{ msg }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <!-- BOOKING FORM -->
+        <form method="POST" action="{{ url_for('book_event', event_id=event.event_id) }}">
+
+          <h3>Book Tickets</h3>
+
+          <label>Number of Tickets</label>
+          <input type="number"
+                 name="tickets"
+                 min="1"
+                 max="{{ event.available_tickets }}"
+                 required>
+
+          <button type="submit" class="btn btn-primary">
+            Book Now (£{{ event.price }} each)
+          </button>
+
+        </form>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="main-footer">
+  <div class="footer-bar">
+    <p>&copy; {{ current_year }} Bristol Community Events</p>
+  </div>
+</footer>
+
+</body>
+</html>

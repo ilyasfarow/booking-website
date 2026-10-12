@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bristol Venues | BCE</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header id="main-header">
+
+  <div class="brand-logo">
+    <a href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="main-logo">
+    </a>
+  </div>
+
+  <nav class="primary-nav">
+    <ul class="navigation">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('events') }}">Events</a></li>
+      <li><a class="active" href="{{ url_for('venues') }}">Venues</a></li>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+      <li><a href="{{ url_for('contact') }}">Contact</a></li>
+
+      {% if session.get('role') == 'admin' %}
+        <li><a href="{{ url_for('admin') }}">Admin</a></li>
+      {% endif %}
+
+      {% if session.get('user_id') %}
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="container">
+  <h1>Bristol Venues</h1>
+  <p style="color:#999;">Discover the best live music, theatre & event spaces in Bristol</p>
+</section>
+
+<!-- ================= GRID ================= -->
+<main class="container">
+
+<div class="grid">
+
+  {% if venues %}
+
+    {% for venue in venues %}
+
+    <div class="card">
+
+      <!-- IMAGE (DB DRIVEN) -->
+      <img src="{{ url_for('static', filename='images/' ~ venue.image_url) }}">
+
+      <div class="content">
+
+        <div class="title">{{ venue.name }}</div>
+
+        <span class="badge">Venue</span>
+
+        <p class="meta">{{ venue.description }}</p>
+        <p class="meta">Capacity: {{ venue.capacity }}</p>
+
+        {% if venue.website %}
+        <a class="btn" href="{{ venue.website }}" target="_blank">View Venue</a>
+        {% else %}
+        <a class="btn" href="#">View Venue</a>
+        {% endif %}
+
+      </div>
+
+    </div>
+
+    {% endfor %}
+
+  {% else %}
+
+    <!-- FALLBACK STATIC (ONLY IF DB EMPTY) -->
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/ashtongate.jpeg') }}">
+      <div class="content">
+        <div class="title">Ashton Gate Stadium</div>
+        <span class="badge">Sports</span>
+        <span class="badge">Concerts</span>
+        <p class="meta">Major stadium hosting sports and live events.</p>
+        <p class="meta">Capacity: 27,000</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/Hippodrome.png') }}">
+      <div class="content">
+        <div class="title">Bristol Beacon</div>
+        <span class="badge">Music</span>
+        <span class="badge">Concert Hall</span>
+        <p class="meta">World-class concert hall and orchestra venue.</p>
+        <p class="meta">Capacity: 2,000</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/boat.webp') }}">
+      <div class="content">
+        <div class="title">O2 Academy Bristol</div>
+        <span class="badge">Live Music</span>
+        <span class="badge">Gigs</span>
+        <p class="meta">Popular touring music venue.</p>
+        <p class="meta">Capacity: 1,600</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/thelka.jpg') }}">
+      <div class="content">
+        <div class="title">Thekla</div>
+        <span class="badge">Nightclub</span>
+        <span class="badge">DJ Events</span>
+        <p class="meta">Floating nightclub on a boat.</p>
+        <p class="meta">Capacity: 400</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/tobaccofactory.jpg') }}">
+      <div class="content">
+        <div class="title">Tobacco Factory Theatre</div>
+        <span class="badge">Theatre</span>
+        <span class="badge">Arts</span>
+        <p class="meta">Independent theatre and arts space.</p>
+        <p class="meta">Capacity: 250</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/trinity.jpg') }}">
+      <div class="content">
+        <div class="title">Trinity Centre</div>
+        <span class="badge">Community</span>
+        <span class="badge">Live Events</span>
+        <p class="meta">Community-run cultural event space.</p>
+        <p class="meta">Capacity: 1,000</p>
+      </div>
+    </div>
+
+  {% endif %}
+
+</div>
+
+</main>
+
+</body>
+</html>

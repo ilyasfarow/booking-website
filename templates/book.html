@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Venue | Bristol Community Events</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
+
+<body>
+
+<header id="main-header">
+
+  <div class="brand-logo">
+    <a href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="main-logo">
+    </a>
+  </div>
+
+  <nav class="primary-nav">
+    <ul class="navigation">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('events') }}">Events</a></li>
+      <li><a href="{{ url_for('venues') }}" class="active">Venues</a></li>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+      <li><a href="{{ url_for('contact') }}">Contact</a></li>
+      <li><a href="{{ url_for('admin') }}">Admin</a></li>
+    </ul>
+  </nav>
+
+  <div class="auth-link">
+    {% if session.get('user_id') %}
+      <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Login</a>
+    {% endif %}
+  </div>
+
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="book-hero">
+  <div class="container text-center">
+    <h1>Book a Venue</h1>
+    <p>Plan your next event with ease — from workshops to large-scale conferences.</p>
+  </div>
+</section>
+
+<!-- ===== MAIN ===== -->
+<main class="book-layout container">
+
+  <!-- LEFT INFO PANEL -->
+  <div class="book-info">
+
+    <h2>Why Book With Us?</h2>
+
+    <ul class="info-list">
+      <li>✔ Wide range of trusted Bristol venues</li>
+      <li>✔ Simple booking process</li>
+      <li>✔ Support for all event types</li>
+      <li>✔ Fast confirmation & assistance</li>
+    </ul>
+
+    <div class="info-card">
+      <h3>Popular Venues</h3>
+      <p>Ashton Gate Stadium, Bristol Hippodrome, Arnolfini and more.</p>
+    </div>
+
+  </div>
+
+  <!-- RIGHT FORM -->
+  <div class="book-form-section">
+
+    {% if not session.get('user_id') %}
+
+      <div class="error-message">
+        You must be logged in to book a venue.
+      </div>
+
+      <a href="{{ url_for('login', next=request.url) }}" class="btn btn-primary">
+        Login to Continue
+      </a>
+
+    {% else %}
+
+    <!-- SUCCESS -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="success-message">
+          {% for msg in messages %}
+            <p>{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('book') }}" method="POST" class="book-form">
+
+      <h2>Booking Details</h2>
+
+      <div class="form-row">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+      </div>
+
+      <div class="form-group">
+        <label>Venue</label>
+        <select name="venue" required>
+          <option value="">Select Venue</option>
+          <option>Ashton Gate Stadium</option>
+          <option>Arnolfini</option>
+          <option>Bristol Hippodrome</option>
+          <option>UWE Exhibition Centre</option>
+          <option>Bristol Old Vic</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <select name="subject" required>
+          <option value="">Event Type</option>
+          <option>Musical</option>
+          <option>Theatre</option>
+          <option>Exhibition</option>
+          <option>Workshop</option>
+          <option>Conference</option>
+        </select>
+
+        <input type="date" name="date" required>
+      </div>
+
+      <div class="form-group">
+        <textarea name="message" placeholder="Tell us about your event..." required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">
+        Submit Booking
+      </button>
+
+    </form>
+
+    {% endif %}
+
+  </div>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="main-footer">
+  <div class="footer-content">
+
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="{{ url_for('events') }}">Events</a></li>
+        <li><a href="{{ url_for('venues') }}">Venues</a></li>
+        <li><a href="{{ url_for('contact') }}">Support</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="{{ url_for('legal') }}">Privacy</a></li>
+        <li><a href="{{ url_for('legal') }}">Terms</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bar">
+    <p>&copy; {{ current_year }} Bristol Community Events</p>
+  </div>
+</footer>
+
+</body>
+</html>

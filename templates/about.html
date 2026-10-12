@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bristol Events | About Us</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header id="main-header">
+    <div class="brand-logo">
+        <a href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="main-logo">
+        </a>
+    </div>
+
+    <nav class="primary-nav">
+        <ul class="navigation">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('events') }}">Events</a></li>
+            <li><a href="{{ url_for('venues') }}">Venues</a></li>
+            <li><a href="{{ url_for('about') }}" class="active">About</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="auth-link">
+        <a href="{{ url_for('login') }}">Login</a>
+    </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main>
+
+    <!-- HERO -->
+    <section class="about-hero">
+        <div class="container text-center">
+            <h1>Bringing Bristol Together</h1>
+            <p class="hero-subtext">
+                Discover, book, and experience the best events across Bristol.
+            </p>
+        </div>
+    </section>
+
+    <!-- INTRO -->
+    <section class="about-section container">
+        <h2>Who We Are</h2>
+        <p>
+            <strong>Bristol Community Events (BCE)</strong> connects people with the best experiences
+            happening across the city. From live music to cultural events, we make discovering
+            and booking simple.
+        </p>
+    </section>
+
+    <!-- MISSION + VISION -->
+    <section class="about-grid container">
+        <div class="about-card">
+            <h3>Our Mission</h3>
+            <p>Make events accessible, inclusive, and easy to discover.</p>
+        </div>
+
+        <div class="about-card">
+            <h3>Our Vision</h3>
+            <p>Make Bristol a leading destination for culture and community experiences.</p>
+        </div>
+    </section>
+
+    <!-- VALUES -->
+    <section class="about-section container">
+        <h2>Our Values</h2>
+
+        <div class="values-grid">
+            <div class="value-card"><h4>Community</h4><p>Bringing people together.</p></div>
+            <div class="value-card"><h4>Accessibility</h4><p>Simple and easy booking.</p></div>
+            <div class="value-card"><h4>Innovation</h4><p>Modern event discovery.</p></div>
+            <div class="value-card"><h4>Sustainability</h4><p>Supporting eco-friendly events.</p></div>
+            <div class="value-card"><h4>Local Pride</h4><p>Celebrating Bristol culture.</p></div>
+        </div>
+    </section>
+
+    <!-- ===== TEAM (AI STYLE CARDS) ===== -->
+    <section class="about-section container">
+        <h2>Meet Our Team</h2>
+
+        <div class="team-grid">
+
+            <div class="team-card">
+                <img src="{{ url_for('static', filename='images/team1.jpg') }}" alt="Team Member">
+                <h3>Alex Carter</h3>
+                <p class="role">Lead Developer</p>
+                <p>Builds and maintains the platform ensuring performance and scalability.</p>
+            </div>
+
+            <div class="team-card">
+                <img src="{{ url_for('static', filename='images/team2.jpg') }}" alt="Team Member">
+                <h3>Sara Ahmed</h3>
+                <p class="role">UI/UX Designer</p>
+                <p>Designs clean, modern interfaces focused on user experience.</p>
+            </div>
+
+            <div class="team-card">
+                <img src="{{ url_for('static', filename='images/team3.jpg') }}" alt="Team Member">
+                <h3>Jay Patel</h3>
+                <p class="role">Event Coordinator</p>
+                <p>Works with organisers to bring exciting events to the platform.</p>
+            </div>
+
+            <div class="team-card">
+                <img src="{{ url_for('static', filename='images/team4.jpg') }}" alt="Team Member">
+                <h3>Emma Williams</h3>
+                <p class="role">Marketing Lead</p>
+                <p>Promotes events and connects the platform with the community.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="about-cta">
+        <div class="container text-center">
+            <h2>Ready to Explore?</h2>
+            <p>Find your next experience in Bristol.</p>
+            <a href="{{ url_for('events') }}" class="btn-primary">Browse Events</a>
+        </div>
+    </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="main-footer">
+    <div class="footer-content">
+        <div>
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="{{ url_for('events') }}">Events</a></li>
+                <li><a href="{{ url_for('venues') }}">Venues</a></li>
+                <li><a href="{{ url_for('contact') }}">Support</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="{{ url_for('legal') }}">Privacy</a></li>
+                <li><a href="{{ url_for('legal') }}">Terms</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bar">
+        <p>&copy; {{ current_year }} Bristol Community Events</p>
+    </div>
+</footer>
+
+</body>
+</html>

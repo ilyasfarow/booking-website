@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings | Bristol Community Events</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header id="main-header">
+
+  <div class="brand-logo">
+    <a href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="main-logo">
+    </a>
+  </div>
+
+  <nav class="primary-nav">
+    <ul class="navigation">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('events') }}">Events</a></li>
+      <li><a href="{{ url_for('venues') }}">Venues</a></li>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+      <li><a href="{{ url_for('contact') }}">Contact</a></li>
+
+      {% if session.get('role') == 'admin' %}
+        <li><a href="{{ url_for('admin') }}">Admin</a></li>
+      {% endif %}
+
+      <li><a class="active" href="{{ url_for('my_bookings') }}">My Bookings</a></li>
+
+      {% if session.get('user_id') %}
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+</header>
+
+<!-- ================= PAGE TITLE ================= -->
+<section class="container">
+  <h1>My Bookings</h1>
+  <p style="color:#999;">View your tickets and booking history.</p>
+</section>
+
+<!-- ================= BOOKINGS ================= -->
+<main class="container">
+
+  {% if bookings and bookings|length > 0 %}
+
+    <div class="events-grid">
+
+      {% for b in bookings %}
+      <div class="event-card">
+
+        <img src="{{ url_for('static', filename='images/event-placeholder.jpg') }}">
+
+        <div class="event-content">
+
+          <h3>{{ b.title }}</h3>
+
+          <p class="event-meta">
+            📍 {{ b.venue_name }} <br>
+            📅 {{ b.event_date }} <br>
+            🎟 Tickets: {{ b.tickets_booked }} <br>
+            💷 Total Paid: £{{ b.total_price }} <br>
+            🕒 Booked: {{ b.booking_date }}
+          </p>
+
+          <div class="event-bottom">
+
+            <span class="price">£{{ b.total_price }}</span>
+
+            <a href="{{ url_for('event_detail', event_id=b.event_id) }}"
+               class="btn small">
+              View Event
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+      {% endfor %}
+
+    </div>
+
+  {% else %}
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state">
+      <h2>No bookings yet</h2>
+      <p>Once you book an event, it will appear here.</p>
+
+      <a href="{{ url_for('events') }}" class="btn">
+        Browse Events
+      </a>
+    </div>
+
+  {% endif %}
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="main-footer">
+  <div class="footer-bar">
+    <p>&copy; {{ current_year }} Bristol Community Events</p>
+  </div>
+</footer>
+
+</body>
+</html>

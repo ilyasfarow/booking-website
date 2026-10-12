@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | Bristol Community Events</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
+
+<body>
+
+<header id="main-header">
+  <div class="brand-logo">
+    <a href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="main-logo">
+    </a>
+  </div>
+
+  <nav class="primary-nav">
+    <ul class="navigation">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('events') }}">Events</a></li>
+      <li><a href="{{ url_for('venues') }}">Venues</a></li>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+      <li><a href="{{ url_for('contact') }}">Contact</a></li>
+      <li><a href="{{ url_for('admin') }}">Admin</a></li>
+    </ul>
+  </nav>
+
+  <div class="auth-link">
+    <a href="{{ url_for('login') }}">Login</a>
+  </div>
+</header>
+
+<main class="auth-main">
+
+  <div class="auth-card">
+
+    <h1>Create Account</h1>
+    <p>Join and start booking events instantly.</p>
+
+    <!-- FLASH -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="flash {{ category }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('register') }}" id="registerForm">
+
+      <div class="form-row">
+        <input type="text" name="first_name" placeholder="First Name" required>
+        <input type="text" name="last_name" placeholder="Last Name" required>
+      </div>
+
+      <input type="email" name="email" placeholder="Email Address" required>
+
+      <!-- PASSWORD -->
+      <div class="password-wrapper">
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <span onclick="togglePassword()">👁</span>
+      </div>
+
+      <!-- STRENGTH -->
+      <div class="strength-bar">
+        <div id="strength-fill"></div>
+      </div>
+      <small id="strength-text"></small>
+
+      <!-- CONFIRM -->
+      <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
+
+      <!-- STUDENT -->
+      <label class="checkbox">
+        <input type="checkbox" name="is_student">
+        Student (10% discount)
+      </label>
+
+      <button type="submit" class="btn primary full">Create Account</button>
+
+    </form>
+
+    <div class="auth-links">
+      <p>Already have an account?</p>
+      <a href="{{ url_for('login') }}">Login here</a>
+    </div>
+
+  </div>
+
+</main>
+
+<footer class="main-footer">
+  <div class="footer-bar">
+    <p>&copy; {{ current_year }} Bristol Community Events</p>
+  </div>
+</footer>
+
+<script>
+// SHOW PASSWORD
+function togglePassword() {
+  const input = document.getElementById("password");
+  input.type = input.type === "password" ? "text" : "password";
+}
+
+// PASSWORD STRENGTH
+const password = document.getElementById("password");
+const fill = document.getElementById("strength-fill");
+const text = document.getElementById("strength-text");
+
+password.addEventListener("input", () => {
+  let val = password.value;
+  let score = 0;
+
+  if (val.length > 6) score++;
+  if (val.match(/[A-Z]/)) score++;
+  if (val.match(/[0-9]/)) score++;
+  if (val.match(/[^A-Za-z0-9]/)) score++;
+
+  const levels = ["Weak", "Fair", "Good", "Strong"];
+  fill.style.width = (score * 25) + "%";
+  text.innerText = levels[score-1] || "";
+});
+
+// VALIDATION
+document.getElementById("registerForm").addEventListener("submit", function(e) {
+  const p = password.value;
+  const c = document.getElementById("confirm_password").value;
+
+  if (p !== c) {
+    e.preventDefault();
+    alert("Passwords do not match.");
+  }
+});
+</script>
+
+</body>
+</html>

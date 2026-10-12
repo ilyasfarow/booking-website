@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Bristol Community Events</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
+
+<body>
+
+<header id="main-header">
+
+  <div class="brand-logo">
+    <a href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="main-logo">
+    </a>
+  </div>
+
+  <nav class="primary-nav">
+    <ul class="navigation">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('events') }}">Events</a></li>
+      <li><a href="{{ url_for('venues') }}">Venues</a></li>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+      <li><a href="{{ url_for('contact') }}">Contact</a></li>
+      <li><a class="active" href="{{ url_for('admin') }}">Admin</a></li>
+    </ul>
+  </nav>
+
+  <div class="auth-link">
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </div>
+</header>
+
+<main class="admin-main container">
+
+  <h1>Admin Dashboard</h1>
+
+  <!-- ================= STATS ================= -->
+  <div class="admin-stats">
+    <div class="stat-card"><h3>{{ total_users }}</h3><p>Users</p></div>
+    <div class="stat-card"><h3>{{ total_events }}</h3><p>Events</p></div>
+    <div class="stat-card"><h3>{{ total_bookings }}</h3><p>Bookings</p></div>
+    <div class="stat-card highlight"><h3>£{{ revenue }}</h3><p>Revenue</p></div>
+  </div>
+
+  <!-- ================= USERS ================= -->
+  <section class="admin-section">
+    <h2>Users</h2>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th><th>Name</th><th>Email</th><th>Role</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.user_id }}</td>
+          <td>{{ user.first_name }} {{ user.last_name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ================= EVENTS ================= -->
+  <section class="admin-section">
+    <h2>Events</h2>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Venue ID</th>
+          <th>Date</th>
+          <th>Price</th>
+          <th>Tickets Left</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for event in events %}
+        <tr>
+          <td>{{ event.event_id }}</td>
+          <td>{{ event.title }}</td>
+          <td>{{ event.venue_id }}</td>
+          <td>{{ event.event_date }}</td>
+          <td>£{{ event.price }}</td>
+          <td>{{ event.available_tickets }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ================= BOOKINGS (IMPORTANT) ================= -->
+  <section class="admin-section">
+    <h2>Bookings</h2>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User ID</th>
+          <th>Event ID</th>
+          <th>Tickets</th>
+          <th>Total Price</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for booking in bookings %}
+        <tr>
+          <td>{{ booking.booking_id }}</td>
+          <td>{{ booking.user_id }}</td>
+          <td>{{ booking.event_id }}</td>
+          <td>{{ booking.tickets_booked }}</td>
+          <td>£{{ booking.total_price }}</td>
+          <td>{{ booking.status }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+</body>
+</html>

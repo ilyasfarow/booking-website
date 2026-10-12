@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Bristol Community Events</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<header id="main-header">
+
+    <div class="brand-logo">
+        <a href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="main-logo">
+        </a>
+    </div>
+
+    <nav class="primary-nav">
+        <ul class="navigation">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('events') }}">Events</a></li>
+            <li><a href="{{ url_for('venues') }}">Venues</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('contact') }}" class="active">Contact</a></li>
+            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="auth-link">
+        <a href="{{ url_for('login') }}">Login</a>
+    </div>
+
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="contact-hero">
+    <div class="container text-center">
+        <h1>Get in Touch</h1>
+        <p>Have a question, request, or idea? We’d love to hear from you.</p>
+    </div>
+</section>
+
+<!-- ===== MAIN ===== -->
+<main class="contact-layout container">
+
+    <!-- LEFT INFO -->
+    <div class="contact-info">
+
+        <h2>Contact Information</h2>
+
+        <div class="info-block">
+            <h4>Email</h4>
+            <p>support@bristolevents.co.uk</p>
+        </div>
+
+        <div class="info-block">
+            <h4>Phone</h4>
+            <p>+44 117 123 4567</p>
+        </div>
+
+        <div class="info-block">
+            <h4>Location</h4>
+            <p>Bristol, United Kingdom</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Response Time</h3>
+            <p>We usually reply within 24 hours.</p>
+        </div>
+
+    </div>
+
+    <!-- RIGHT FORM -->
+    <div class="contact-form-section">
+
+        <!-- FLASH -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="success-message">
+                    {% for msg in messages %}
+                        <p>{{ msg }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('contact') }}" method="POST" class="contact-form">
+
+            <h2>Send a Message</h2>
+
+            <div class="form-row">
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="subject" placeholder="Subject" required>
+            </div>
+
+            <div class="form-group">
+                <textarea name="message" placeholder="Your message..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Send Message
+            </button>
+
+        </form>
+
+    </div>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="main-footer">
+
+    <div class="footer-content">
+
+        <div>
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="{{ url_for('events') }}">Events</a></li>
+                <li><a href="{{ url_for('venues') }}">Venues</a></li>
+                <li><a href="{{ url_for('contact') }}">Support</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="{{ url_for('legal') }}">Privacy</a></li>
+                <li><a href="{{ url_for('legal') }}">Terms</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="footer-bar">
+        <p>&copy; {{ current_year }} Bristol Community Events</p>
+    </div>
+
+</footer>
+
+</body>
+</html>
